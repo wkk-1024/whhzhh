@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+    <!--扫包 begin-->
+    <context:component-scan base-package="com.wkk.demo.controller">
+    </context:component-scan>
+    <!--扫包 end-->
+
+    <!--提供Controller请求转发，json自动转换等功能-->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <!--全局修改输出为UTF-8编码-->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!--文件上传 begin-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="DefaultEncoding" value="UTF-8" />
+        <property name="MaxUploadSize" value="1048576" />
+        <property name="MaxInMemorySize" value="4096"/>
+    </bean>
+    <!--文件上传 end-->
+
+    <!--jsp视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/view/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="viewClass" value = "org.springframework.web.servlet.view.JstlView"></property>
+    </bean>
+
+    <!--全部资源方行-->
+    <!--<mvc:default-servlet-handler/>-->
+    <mvc:resources mapping="/static/**" location="/static/"/>
+
+    <import resource="spring-datasoure.xml"></import>
+
+</beans>
